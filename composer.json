@@ -1,0 +1,30 @@
+{
+  "name": "trungtan/jenkins_practice",
+  "description": "Practice Jenkins CI",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tan Bui",
+      "email": "trungtanbui@gmail.com",
+      "role": "Author"
+    }
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.3.*",
+    "phpunit/php-invoker": "*",
+    "phpunit/dbunit": ">=1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "JenkinsPractice\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "JenkinsPractice\\Tests\\": "Tests"
+    }
+  }
+}
