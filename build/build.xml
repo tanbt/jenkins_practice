@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================  -->
+<!-- webroot_dir# build/build.sh local -->
+<!-- ============================================  -->
+
+<project name="jenkins_practice" default="main" phingVersion="2.9.0" >
+
+    <property file="${profile.code}.properties" />
+    <property name="package"  value="${phing.project.name}" override="true" />
+
+    <!-- Fileset for all files -->
+    <fileset dir="${srcdir}" id="allfiles">
+        <include name="*" />
+    </fileset>
+
+    <target name="main" description="Doing all deployment target" depends="build">
+        <echo>Running build file on profile: ${profile.code}.properties</echo>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <echo>Making target directory at ${builddir}"</echo>
+        <mkdir dir="${target.dir}" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <target name="build" depends="prepare">
+        <echo msg="Copying files to build directory..." />
+
+        <copy todir="${target.dir}">
+            <fileset refid="allfiles" />
+        </copy>
+
+    </target>
+
+
+</project>
