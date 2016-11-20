@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- ============================================  -->
-<!-- webroot_dir# build/build.sh local -->
+<!-- webroot_dir# phing -f build.xml -Dprofile.code=local -Dsrcdir=$(pwd) -->
 <!-- ============================================  -->
 
 <project name="jenkins_practice" default="main" phingVersion="2.9.0" >
 
-    <property file="${profile.code}.properties" />
+    <property file="build/${profile.code}.properties" />
     <property name="package"  value="${phing.project.name}" override="true" />
 
     <!-- Fileset for all files -->
@@ -19,9 +19,29 @@
     </target>
 
     <!-- ============================================  -->
+    <!-- Target: composer                              -->
+    <!-- ============================================  -->
+    <target name="composer" description="Run composer install">
+        <composer command="install" composer="/usr/local/bin/composer">
+            <arg value="--optimize-autoloader" />
+            <!--<arg value="&#45;&#45;working-dir=../" />-->
+        </composer>
+
+        <!-- Load autoload.php so apps installed with composer works -->
+        <!--<php expression="include('vendor/autoload.php')"/>-->
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: PhpUnit test                          -->
+    <!-- ============================================  -->
+    <target name="phpunit" description="Run the unit tests" depends="composer">
+        <exec command="phpunit -v --testsuite 'person'" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
     <!-- Target: prepare                               -->
     <!-- ============================================  -->
-    <target name="prepare">
+    <target name="prepare" description="Prepare target directory" depends="phpunit">
         <echo>Making target directory at ${builddir}"</echo>
         <mkdir dir="${target.dir}" />
     </target>
